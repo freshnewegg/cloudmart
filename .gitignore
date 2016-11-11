@@ -1,0 +1,4 @@
+*.sqlite3
+*.json
+lib/
+.Python

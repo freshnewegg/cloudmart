@@ -16,13 +16,17 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from oscar.app import application
+from django.conf.urls.static import static 
+from django.conf import settings
 
 urlpatterns = [
+    #sets language preference see https://docs.djangoproject.com/en/1.10/topics/i18n/translation/
     url(r'^i18n/', include('django.conf.urls.i18n')),
 
     # The Django admin is not officially supported; expect breakage.
     # Nonetheless, it's often useful for debugging.
     url(r'^admin/', include(admin.site.urls)),
 
+    #from application(oscar.app) import the url paths
     url(r'', include(application.urls)),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

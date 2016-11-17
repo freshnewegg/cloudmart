@@ -25,6 +25,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '#0&1!0z5!orki@)z-!s*5z1m=$r0hpn%d)vlzv(74dvr32_+jv'
 
+#Braintree keys for connection to braintree
+BRAINTREE_MERCHANT_ID = '<your_merchant_id>'
+BRAINTREE_PUBLIC_KEY = '<your_public_key>'
+BRAINTREE_PRIVATE_KEY = '<your_private_key>'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -40,10 +45,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-		'django.contrib.sites',
-		'django.contrib.flatpages',
-		'widget_tweaks',
-]+get_core_apps()
+	'django.contrib.sites',
+	'django.contrib.flatpages',
+	'widget_tweaks',
+    'braintree',
+] + get_core_apps(['cloudmart.shipping'])
 
 SITE_ID = 1
 

@@ -23,6 +23,9 @@ urlpatterns = [
     #sets language preference see https://docs.djangoproject.com/en/1.10/topics/i18n/translation/
     url(r'^i18n/', include('django.conf.urls.i18n')),
 
+    #Braintree integration
+    #url(r'^payment-details/', include('cloudmart.checkout.urls')),
+
     # The Django admin is not officially supported; expect breakage.
     # Nonetheless, it's often useful for debugging.
     url(r'^admin/', include(admin.site.urls)),

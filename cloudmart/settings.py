@@ -15,6 +15,17 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 
+# List of callables that know how to import templates from various sources.
+# TEMPLATE_LOADERS = (
+#     'django.template.loaders.filesystem.Loader',
+#     'django.template.loaders.app_directories.Loader',
+#      'django.template.loaders.eggs.Loader',
+# )
+
+from oscar import OSCAR_MAIN_TEMPLATE_DIR
+#template overriding see http://django-oscar.readthedocs.io/en/releases-1.2/howto/how_to_customise_templates.html
+location = lambda x: os.path.join(os.path.dirname(os.path.realpath(__file__)), x)
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -49,7 +60,7 @@ INSTALLED_APPS = [
 	'django.contrib.flatpages',
 	'widget_tweaks',
     'braintree',
-] + get_core_apps(['cloudmart.shipping'])
+] + get_core_apps(['cloudmart.shipping','cloudmart.checkout'])
 
 SITE_ID = 1
 
@@ -77,16 +88,17 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'templates'),
-            OSCAR_MAIN_TEMPLATE_DIR
+            location('templates'),
+            os.path.join(OSCAR_MAIN_TEMPLATE_DIR, 'templates'),
+            OSCAR_MAIN_TEMPLATE_DIR,
         ],
-        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
-                'django.core.context_processors.i18n',
+                #'django.core.context_processors.i18n',
+                'django.template.context_processors.i18n',
                 'django.contrib.messages.context_processors.messages',
 
                 'oscar.apps.search.context_processors.search_form',
@@ -94,13 +106,18 @@ TEMPLATES = [
                 'oscar.apps.checkout.context_processors.checkout',
                 'oscar.apps.customer.notifications.context_processors.notifications',
                 'oscar.core.context_processors.metadata',
+                #'django.template.context_processors.metadata',
             ],
+            'loaders': [
+                'django.template.loaders.filesystem.Loader',
+                'django.template.loaders.app_directories.Loader',
+                'django.template.loaders.eggs.Loader',
+            ]
         },
     },
 ]
 
 WSGI_APPLICATION = 'cloudmart.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
